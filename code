@@ -1,0 +1,91 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsolwApp
+{
+    public interface IPlayer
+    {
+       int score { get; set; }
+    }
+    public class PlayerA: IPlayer
+    {
+        public int score { get; set; }
+        public PlayerA()
+        {
+            //score = 0;
+        }
+    }
+    public class PlayerB: IPlayer
+    {
+        public int score { get; set; }
+        public PlayerB()
+        {
+            //score = 0;
+        }
+    }
+    public class Program
+    {
+        public class TennisArgs : EventArgs
+        {
+            public int scoreA;
+            public int ScoreB;
+        }
+        public delegate void TennisDelegate(int a, int b);
+        public event TennisDelegate TennisEvent;
+        public  void EvetMethod(PlayerA playerA, PlayerB playerB)
+        {
+            TennisEvent?.Invoke(playerA.score, playerB.score);
+        }
+        public  void Scoring(IPlayer player, PlayerA pA, PlayerB pB)
+        {
+            player.score++;
+            EvetMethod(pA,pB);
+        }
+        public static void Result()
+        {
+            Console.WriteLine();
+        }
+        public static void Winner(int scoreA, int scoreB)
+        {
+            if (scoreA == 5 && scoreB != 4)
+            {
+                Console.WriteLine("A is the winner");
+            }
+            if (scoreB == 5 && scoreA != 4)
+            {
+                Console.WriteLine("B is the winner");
+            }
+            if (scoreA == 4 & scoreB == 4)
+            {
+                Console.WriteLine("douce");
+            }
+        }
+        static void Main()
+        {
+            PlayerA pA = new PlayerA();
+            PlayerB pB = new PlayerB();
+            Program program = new Program();
+            program.TennisEvent += Winner;
+            program.Scoring(pA,pA,pB);
+            program.Scoring(pB, pA, pB);
+            program.Scoring(pB, pA, pB);
+            program.Scoring(pB, pA, pB);
+            program.Scoring(pA, pA, pB);
+            program.Scoring(pA, pA, pB);
+            program.Scoring(pA, pA, pB);
+            //program.Scoring(pB, pA, pB);
+            program.Scoring(pA, pA, pB);
+            
+            Console.WriteLine("palyer A is  :  " + pA.score);
+            Console.WriteLine("palyer B is  :  " + pB.score);
+            Console.ReadLine();
+
+        }
+        public static void C_method()
+        {
+            Console.WriteLine("event is working   ");
+
+        }
+    }
+}
